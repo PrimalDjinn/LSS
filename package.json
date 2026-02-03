@@ -1,23 +1,41 @@
 {
   "name": "lss",
-  "version": "1.0.0",
-  "description": "Site Frnt End",
-  "main": "js/main.js",
+  "version": "2.0.0",
+  "description": "Legionnaire Security Solutions - Premier Security Company",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "sass --watch src/scss:src/css"
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kgarchie/LSS.git"
+  "dependencies": {
+    "@nuxt/fonts": "^0.11.3",
+    "@nuxt/icon": "^1.11.0",
+    "@nuxt/image": "^1.9.0",
+    "@nuxt/scripts": "^0.13.2",
+    "@nuxt/ui": "^3.1.0",
+    "@vue-email/components": "^0.0.21",
+    "@vue-email/render": "^0.0.9",
+    "nodemailer": "^6.10.0",
+    "nuxt": "^4.0.0",
+    "ufo": "^1.6.3",
+    "vue": "^3.5.13",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/nodemailer": "^6.4.17",
+    "@types/youtube": "^0.1.2",
+    "@vitejs/plugin-vue": "^5.2.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.8.2"
   },
   "author": "Bosire Allan",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/kgarchie/LSS/issues"
-  },
-  "homepage": "https://github.com/kgarchie/LSS#readme",
-  "dependencies": {
-    "sass": "^1.57.1"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kgarchie/LSS.git"
   }
 }
