@@ -9,7 +9,8 @@
     "build": "nuxt build",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "deploy": "pnpm exec wrangler --cwd .output deploy"
   },
   "dependencies": {
     "@nuxt/fonts": "^0.11.3",
@@ -30,7 +31,8 @@
     "@types/youtube": "^0.1.2",
     "@vitejs/plugin-vue": "^5.2.0",
     "tailwindcss": "^4.0.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "wrangler": "^4.62.0"
   },
   "author": "Bosire Allan",
   "license": "MIT",
