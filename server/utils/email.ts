@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import { render } from "@vue-email/render";
 import ContactEmail from "../emails/ContactEmail.vue";
 
@@ -19,9 +19,9 @@ interface EmailOptions {
 export async function sendEmail(options: EmailOptions): Promise<boolean> {
   const config = useRuntimeConfig();
 
-  // Check if SMTP is configured
-  if (!config.smtp.host || !config.smtp.user) {
-    console.warn("SMTP not configured. Email not sent.");
+  // Check if Resend is configured
+  if (!config.resendApiKey) {
+    console.warn("Resend API key not configured. Email not sent.");
     // In development, just log the email
     if (import.meta.dev) {
       console.log("Email would be sent:", options);
@@ -30,25 +30,22 @@ export async function sendEmail(options: EmailOptions): Promise<boolean> {
     throw new Error("Email service not configured");
   }
 
-  const transporter = nodemailer.createTransport({
-    host: config.smtp.host,
-    port: config.smtp.port,
-    secure: config.smtp.port === 465,
-    auth: {
-      user: config.smtp.user,
-      pass: config.smtp.pass,
-    },
-  });
+  const resend = new Resend(config.resendApiKey);
 
   try {
-    await transporter.sendMail({
-      from: `"Contact Form" <${config.smtp.from}>`,
+    const { error } = await resend.emails.send({
+      from: config.emailFrom,
       to: options.to,
       subject: options.subject,
       html: options.html,
       text: options.text,
       replyTo: options.replyTo,
     });
+
+    if (error) {
+      console.error("Failed to send email:", error);
+      throw new Error(error.message);
+    }
 
     return true;
   } catch (error) {
@@ -57,9 +54,7 @@ export async function sendEmail(options: EmailOptions): Promise<boolean> {
   }
 }
 
-export async function renderContactEmail(
-  data: ContactEmailData,
-): Promise<{ html: string; text: string }> {
+export async function renderContactEmail(data: ContactEmailData): Promise<{ html: string; text: string }> {
   const name = data.name || "Anonymous";
 
   // Render Vue Email template to HTML

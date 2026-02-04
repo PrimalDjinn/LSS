@@ -19,12 +19,8 @@ export default defineNuxtConfig({
   css: ["assets/css/main.css"],
 
   runtimeConfig: {
-    // Server-side only
-    smtpHost: process.env.SMTP_HOST || "",
-    smtpPort: parseInt(process.env.SMTP_PORT || "587"),
-    smtpUser: process.env.SMTP_USER || "",
-    smtpPass: process.env.SMTP_PASS || "",
-    smtpFrom: process.env.SMTP_FROM || "",
+    resendApiKey: process.env.RESEND_API_KEY || "",
+    emailFrom: process.env.EMAIL_FROM || "Contact Form <info@lss.africa>",
     emailTo: process.env.EMAIL_TO || "",
 
     // Public (exposed to client)
