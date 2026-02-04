@@ -10,13 +10,7 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
 
-  modules: [
-    "@nuxt/ui",
-    "@nuxt/icon",
-    "@nuxt/fonts",
-    "@nuxt/image",
-    "@nuxt/scripts",
-  ],
+  modules: ["@nuxt/ui", "@nuxt/icon", "@nuxt/fonts", "@nuxt/image", "@nuxt/scripts"],
 
   image: {
     domains: ["images.unsplash.com"],
@@ -43,8 +37,33 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    preset: "cloudflare-module",
     rollupConfig: {
       plugins: [vue()],
+    },
+    cloudflare: {
+      deployConfig: true,
+      nodeCompat: true,
+      wrangler: {
+        name: "lss",
+        workers_dev: false,
+        routes: [
+          {
+            pattern: "lss.africa",
+            zone_name: "lss.africa",
+            custom_domain: true,
+          },
+        ],
+        observability: {
+          enabled: false,
+          head_sampling_rate: 1,
+          logs: {
+            enabled: true,
+            head_sampling_rate: 1,
+            invocation_logs: true,
+          },
+        },
+      },
     },
   },
 });
