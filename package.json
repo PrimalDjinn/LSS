@@ -21,7 +21,6 @@
     "@vue-email/components": "^0.0.21",
     "@vue-email/render": "^0.0.9",
     "nuxt": "^4.3.0",
-    "resend": "^6.9.1",
     "ufo": "^1.6.3",
     "vue": "^3.5.13",
     "zod": "^3.24.0"

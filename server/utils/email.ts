@@ -1,4 +1,3 @@
-import { Resend } from "resend";
 import { render } from "@vue-email/render";
 import ContactEmail from "../emails/ContactEmail.vue";
 
@@ -16,6 +15,11 @@ interface EmailOptions {
   replyTo?: string;
 }
 
+interface ResendResponse {
+  id?: string;
+  message?: string;
+}
+
 export async function sendEmail(options: EmailOptions): Promise<boolean> {
   const config = useRuntimeConfig();
 
@@ -30,21 +34,29 @@ export async function sendEmail(options: EmailOptions): Promise<boolean> {
     throw new Error("Email service not configured");
   }
 
-  const resend = new Resend(config.resendApiKey);
-
   try {
-    const { error } = await resend.emails.send({
-      from: config.emailFrom,
-      to: options.to,
-      subject: options.subject,
-      html: options.html,
-      text: options.text,
-      replyTo: options.replyTo,
+    // Use fetch directly instead of Resend SDK for edge compatibility
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${config.resendApiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: config.emailFrom,
+        to: options.to,
+        subject: options.subject,
+        html: options.html,
+        text: options.text,
+        reply_to: options.replyTo,
+      }),
     });
 
-    if (error) {
-      console.error("Failed to send email:", error);
-      throw new Error(error.message);
+    const data: ResendResponse = await response.json();
+
+    if (!response.ok) {
+      console.error("Failed to send email:", data);
+      throw new Error(data.message || "Failed to send email");
     }
 
     return true;
