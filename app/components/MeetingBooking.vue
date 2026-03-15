@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const button = ref<HTMLButtonElement | null>(null);
+const button = useTemplateRef("button");
 
 declare global {
   interface Window {
@@ -25,26 +25,47 @@ const { onLoaded } = useScript(
 );
 
 onMounted(() => {
+  const config = useRuntimeConfig();
   onLoaded((calendar) => {
     calendar.schedulingButton.load({
-      url: useRuntimeConfig().public.googleCalendarBookLink,
+      url: config.public.googleCalendarBookLink,
       color: "#f59e0b", // Amber-500 to match theme
       label: "",
       target: button.value,
     });
 
-    // Hide Google's default button and use our styled one
-    const target = button.value?.nextElementSibling as HTMLButtonElement;
-    target?.classList.add("hidden");
-    button.value?.addEventListener("click", () => target?.click());
+    button.value?.nextElementSibling?.classList.add("hidden");
   });
 });
+
+const toast = useToast();
+function onClick() {
+  if (button.value) {
+    const target = button.value.nextElementSibling as HTMLButtonElement;
+    target?.click();
+  } else {
+    toast.add({
+      title: "Oops, a fatal UI error occurred",
+      description: "Please try other contact methods listed",
+      color: "error",
+    });
+  }
+}
 </script>
 
 <template>
   <div class="w-full">
     <Link href="https://calendar.google.com/calendar/scheduling-button-script.css" rel="stylesheet" />
-    <UButton ref="button" icon="i-lucide-calendar" color="primary" variant="outline" size="xl" block class="font-bold">
+    <button ref="button" class="hidden">Fake Button</button>
+    <UButton
+      icon="i-lucide-calendar"
+      color="primary"
+      variant="outline"
+      size="xl"
+      block
+      class="font-bold"
+      @click="onClick"
+    >
       Book a Meeting
     </UButton>
   </div>

@@ -6,10 +6,6 @@ export default defineNuxtConfig({
   compatibilityDate: "2026-02-02",
   devtools: { enabled: true },
 
-  future: {
-    compatibilityVersion: 4,
-  },
-
   modules: ["@nuxt/ui", "@nuxt/icon", "@nuxt/fonts", "@nuxt/image", "@nuxt/scripts"],
 
   image: {
@@ -21,14 +17,14 @@ export default defineNuxtConfig({
   runtimeConfig: {
     resendApiKey: process.env.RESEND_API_KEY || "",
     emailFrom: process.env.EMAIL_FROM || "Contact Form <info@lss.africa>",
-    emailTo: process.env.EMAIL_TO || "",
+    emailTo: process.env.EMAIL_TO || "info@lss.africa",
 
     // Public (exposed to client)
     public: {
-      whatsappNumber: process.env.WHATSAPP_NUMBER || "+254722000000",
+      whatsappNumber: process.env.WHATSAPP_NUMBER || "+254720105825",
       companyName: "Legionnaire Security Solutions",
       address: "Nairobi, Kenya",
-      googleCalendarBookLink: process.env.GOOGLE_CALENDAR_BOOK_LINK || "",
+      googleCalendarBookLink: process.env.GOOGLE_CALENDAR_BOOK_LINK || "https://calendar.app.google/guoTBuuNUgc76KMo8",
     },
   },
 
